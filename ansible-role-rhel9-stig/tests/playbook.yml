@@ -1,0 +1,11 @@
+---
+- hosts: rhel9_stig
+  remote_user: root
+  roles:
+    - ansible-role-rhel9-stig
+  vars:
+    DISA_STIG_RHEL_09_255140: false
+    DISA_STIG_RHEL_09_411015: false
+    DISA_STIG_RHEL_09_611205: false
+    DISA_STIG_RHEL_09_651015: false
+    DISA_STIG_RHEL_09_652055: false
