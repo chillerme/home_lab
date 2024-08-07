@@ -18,4 +18,7 @@ galaxy_info:
   redhatofficial, redhat, rhel9, stig, disa]
 
 
-dependencies: []
+dependencies: [
+  - name: community.general,
+  - name: ansible.posix
+]
