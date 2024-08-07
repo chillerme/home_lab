@@ -19,6 +19,6 @@ galaxy_info:
 
 
 dependencies: [
-  - name: community.general,
-  - name: ansible.posix
+  name: community.general,
+  name: ansible.posix
 ]
