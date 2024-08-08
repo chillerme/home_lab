@@ -1,5 +1,5 @@
 ---
-- hosts: aap_stig
+- hosts: test_stig
   remote_user: root
   roles:
     - ansible-role-rhel8-stig
