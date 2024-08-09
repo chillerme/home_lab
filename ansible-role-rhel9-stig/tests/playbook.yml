@@ -1,5 +1,5 @@
 ---
-- hosts: rhel9_stig
+- hosts: all
   remote_user: root
   roles:
     - ansible-role-rhel9-stig
