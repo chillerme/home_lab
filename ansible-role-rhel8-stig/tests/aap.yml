@@ -28,6 +28,8 @@
     DISA_STIG_RHEL_08_040137: false
     # promiscuous mode (Can break vms with containers)
     DISA_STIG_RHEL_08_040330: false
+    # Tmux profile.d
+    DISA_STIG_RHEL_08_020041: false
 
 
     #/tmp noexec
