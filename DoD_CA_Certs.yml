@@ -1,0 +1,19 @@
+---
+- name: Copy, execute, and delete dod_ca.sh script
+  hosts: deploy
+  vars:
+    script_path: "/srv/dod_ca.sh"
+  tasks:
+    - name: Copy the dod_ca.sh script to remote host
+      copy:
+        src: ../../vars/dod_ca.sh
+        dest: "{{ script_path }}"
+        mode: '0700'
+
+    - name: Execute the dod_ca.sh script
+      command: "{{ script_path }}"
+
+    - name: Delete the dod_ca.sh script
+      file:
+        path: "{{ script_path }}"
+        state: absent
