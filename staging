@@ -1,8 +1,8 @@
 apt:
   hosts:
-    pve
+    pve:
 
 dnf:
   hosts:
-    ipa
-    boot
+    ipa:
+    boot:
