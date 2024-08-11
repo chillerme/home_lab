@@ -6,3 +6,4 @@ dnf:
   hosts:
     ipa:
     boot:
+    awx:
