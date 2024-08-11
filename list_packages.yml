@@ -1,17 +1,20 @@
 ---
-- hosts: dnf
+- name: List Available DNF Updates
+  hosts: dnf
+  gather_facts: no
   tasks:
-  - name: List Available Patches (Non-Kernel)
-    dnf:
-      list: updates
-      update_cache: true
-    register:   my_packages: "{{ dict(packages.results|groupby('name')) }}"
+    - name: List Available Updates using dnf check-update
+      command: dnf check-update --quiet
+      register: dnf_updates
+      changed_when: false
 
-  - name: Print the package facts
-    debug:
-      msg: |
-        {% for name,versions in my_packages.items() %}
-        {% set max_ver=versions|map(attribute='version')|max %}
-        {% set p=versions|selectattr('version', '==', max_ver) %}
-        {{ name }}-{{ p.0.version }}-{{ p.0.release }} 
-        {% endfor %}
+    - name: Parse available updates
+      set_fact:
+        packages: "{{ dnf_updates.stdout_lines | select('search', '^[a-zA-Z0-9]') | map('split', ' ') | map('first') | list }}"
+
+    - name: Print the package facts
+      debug:
+        msg: |
+          {% for package in packages %}
+          {{ package }}
+          {% endfor %}
