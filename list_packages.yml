@@ -1,9 +1,17 @@
 ---
 - hosts: dnf
   tasks:
-  - name: Gather the package facts
-    ansible.builtin.package_facts:
-      manager: auto
+#  - name: Gather the package facts
+#    ansible.builtin.package_facts:
+#      manager: auto
+#  - name: Print the package facts
+#    ansible.builtin.debug:
+#      var: "{{ ansible_facts.packages | to_nice_yaml }}"
+  - name: List Available Patches (Non-Kernel)
+    dnf:
+      list: updates
+      update_cache: true
+    register: packages
   - name: Print the package facts
     ansible.builtin.debug:
-      var: "{{ ansible_facts.packages | to_nice_yaml }}"
+      var: packages
