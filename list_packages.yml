@@ -1,17 +1,17 @@
 ---
 - hosts: dnf
   tasks:
-#  - name: Gather the package facts
-#    ansible.builtin.package_facts:
-#      manager: auto
-#  - name: Print the package facts
-#    ansible.builtin.debug:
-#      var: "{{ ansible_facts.packages | to_nice_yaml }}"
   - name: List Available Patches (Non-Kernel)
     dnf:
       list: updates
       update_cache: true
-    register: packages
+    register:   my_packages: "{{ dict(packages.results|groupby('name')) }}"
+
   - name: Print the package facts
-    ansible.builtin.debug:
-      var: packages
+    debug:
+      msg: |
+        {% for name,versions in my_packages.items() %}
+        {% set max_ver=versions|map(attribute='version')|max %}
+        {% set p=versions|selectattr('version', '==', max_ver) %}
+        {{ name }}-{{ p.0.version }}-{{ p.0.release }} 
+        {% endfor %}
