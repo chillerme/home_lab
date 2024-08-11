@@ -1,7 +1,6 @@
 ---
 - name: List Available DNF Updates
   hosts: dnf
-  gather_facts: no
   tasks:
     - name: List Available Updates using dnf check-update
       command: dnf check-update --quiet
