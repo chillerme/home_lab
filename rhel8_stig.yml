@@ -66,8 +66,10 @@
     DISA_STIG_RHEL_08_040136: false
     #Fapolicy Permissive
     DISA_STIG_RHEL_08_040137: false
-    # Tmux profile.d
+    #Tmux profile.d
     DISA_STIG_RHEL_08_020041: false
+    #TFTP
+    DISA_STIG_RHEL_08_040350: false
 
 - hosts: rhel8_stig_containers
   roles:
