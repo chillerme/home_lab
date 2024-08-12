@@ -1,5 +1,5 @@
 ---
 ipa_clients:
-  ipaadmin_password: 12qwaszx!@QWASZX
+  ipaadmin_password: 
   ipaserver_domain: idm.clfnetwork.com
   ipaserver_realm: IDM.CLFNETWORK.COM
