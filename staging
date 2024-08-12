@@ -7,3 +7,8 @@ dnf:
     ipa:
     boot:
     awx:
+
+ipa_clients:
+  ipa:
+  boot:
+  awx:
