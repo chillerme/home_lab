@@ -1,5 +1,5 @@
 ---
-- hosts: test_stig
+- hosts: rhel8_stig_aap
   roles:
     - ansible-role-rhel8-stig
   vars:
@@ -30,8 +30,6 @@
     DISA_STIG_RHEL_08_040330: false
     # Tmux profile.d
     DISA_STIG_RHEL_08_020041: false
-
-
     #/tmp noexec
     DISA_STIG_RHEL_08_040125: false
     #/var/tmp noexec
@@ -40,3 +38,70 @@
     DISA_STIG_RHEL_08_040284: false
     #PermitRootLogin no
     DISA_STIG_RHEL_08_010550: false
+
+- hosts: rhel8_stig_default
+  roles:
+    - ansible-role-rhel8-stig
+  vars:
+    var_sudo_timestamp_timeout: '30'
+    #DNF Update
+    DISA_STIG_RHEL_08_010010: false
+    #Kerberos keytabs
+    DISA_STIG_RHEL_08_010161: false
+    #krb5-workstation
+    DISA_STIG_RHEL_08_010162: false
+    #krb5-server
+    DISA_STIG_RHEL_08_010163: false
+    #AIDE Cronjob
+    DISA_STIG_RHEL_08_010360: false
+    #Install Postfix with notifiecation settings
+    DISA_STIG_RHEL_08_030030: false
+    #Rsyslog IP
+    DISA_STIG_RHEL_08_030690: false
+    #Enforce 60-day max pass in /etc/shadow (this can stop playbook if passwords are changed)
+    DISA_STIG_RHEL_08_020210: false
+    #Enforce min day pass in /etc/shadow (this can stop playbook if passwords are changed)
+    DISA_STIG_RHEL_08_020180: false
+    #Enable Fapolicy
+    DISA_STIG_RHEL_08_040136: false
+    #Fapolicy Permissive
+    DISA_STIG_RHEL_08_040137: false
+    # Tmux profile.d
+    DISA_STIG_RHEL_08_020041: false
+
+- hosts: rhel8_stig_containers
+  roles:
+    - ansible-role-rhel8-stig
+  vars:
+    var_sudo_timestamp_timeout: '30'
+    #DNF Update
+    DISA_STIG_RHEL_08_010010: false
+    #Kerberos keytabs
+    DISA_STIG_RHEL_08_010161: false
+    #krb5-workstation
+    DISA_STIG_RHEL_08_010162: false
+    #krb5-server
+    DISA_STIG_RHEL_08_010163: false
+    #AIDE Cronjob
+    DISA_STIG_RHEL_08_010360: false
+    #Install Postfix with notifiecation settings
+    DISA_STIG_RHEL_08_030030: false
+    #Rsyslog IP
+    DISA_STIG_RHEL_08_030690: false
+    #Enforce 60-day max pass in /etc/shadow (this can stop playbook if passwords are changed)
+    DISA_STIG_RHEL_08_020210: false
+    #Enforce min day pass in /etc/shadow (this can stop playbook if passwords are changed)
+    DISA_STIG_RHEL_08_020180: false
+    #Enable Fapolicy
+    DISA_STIG_RHEL_08_040136: false
+    #Fapolicy Permissive
+    DISA_STIG_RHEL_08_040137: false
+    # Tmux profile.d
+    DISA_STIG_RHEL_08_020041: false
+    #user.max_user_namespaces (needed for vms that use containers)
+    DISA_STIG_RHEL_08_040284: false
+    # promiscuous mode (Can break vms with containers)
+    DISA_STIG_RHEL_08_040330: false
+    #ipv4 forwarding on all the interfaces
+    DISA_STIG_RHEL_08_040259: false
+    
