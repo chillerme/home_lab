@@ -28,8 +28,6 @@
     DISA_STIG_RHEL_08_040137: false
     # promiscuous mode (Can break vms with containers)
     DISA_STIG_RHEL_08_040330: false
-    # Tmux profile.d
-    DISA_STIG_RHEL_08_020041: false
     #/tmp noexec
     DISA_STIG_RHEL_08_040125: false
     #/var/tmp noexec
@@ -98,8 +96,6 @@
     DISA_STIG_RHEL_08_040136: false
     #Fapolicy Permissive
     DISA_STIG_RHEL_08_040137: false
-    # Tmux profile.d
-    DISA_STIG_RHEL_08_020041: false
     #user.max_user_namespaces (needed for vms that use containers)
     DISA_STIG_RHEL_08_040284: false
     # promiscuous mode (Can break vms with containers)
