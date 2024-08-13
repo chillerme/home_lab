@@ -14190,13 +14190,13 @@
   ansible.builtin.blockinfile:
     path: /etc/profile.d/tmux.sh
     block: |
-    if ["$USER" != "ansible" ]; then
-    if [ "$PS1" ]; then
-      parent=$(ps -o ppid= -p $$)
-      name=$(ps -o comm= -p $parent)
-      case "$name" in (sshd|login) tmux ;; esac
-    fi
-    fi
+      if ["$USER" != "ansible" ]; then
+      if [ "$PS1" ]; then
+        parent=$(ps -o ppid= -p $$)
+        name=$(ps -o comm= -p $parent)
+        case "$name" in (sshd|login) tmux ;; esac
+      fi
+      fi
     create: true
   when:
   - DISA_STIG_RHEL_08_020041 | bool
