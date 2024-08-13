@@ -1,5 +1,3 @@
 collections:
   - name: community.general
   - name: ansible.posix
-
-- src: https://github.com/linux-system-roles/storage
