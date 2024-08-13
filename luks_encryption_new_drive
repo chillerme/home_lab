@@ -1,0 +1,17 @@
+---
+- name: Create and configure a volume encrypted with LUKS
+  hosts: all
+  roles:
+    - rhel-system-roles.storage
+  vars:
+    storage_volumes:
+      - name: nfs-data
+        type: disk
+        disks:
+         - sdb
+        fs_type: xfs
+        fs_label: nfs_data
+        mount_point: /mnt/data
+        encryption: true
+#        encryption_password: <password>
+        encryption_key: /etc/luks-keys/mybackup_key
