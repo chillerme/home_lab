@@ -14217,7 +14217,7 @@
   ansible.builtin.blockinfile:
     path: /etc/profile.d/tmux.sh
     block: |
-      if ["$USER" != "ansible" ]; then
+      if [ "$USER" != "ansible" ]; then
       if [ "$PS1" ]; then
         parent=$(ps -o ppid= -p $$)
         name=$(ps -o comm= -p $parent)
