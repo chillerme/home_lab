@@ -14186,6 +14186,33 @@
   - medium_severity
   - no_reboot_needed
 
+- name: Touch the same file, but add/remove some permissions
+  ansible.builtin.file:
+    path: /etc/profile.d/tmux.sh
+    state: touch
+    mode: '0644'
+  when:
+  - DISA_STIG_RHEL_08_020041 | bool
+  - configure_bashrc_tmux | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - low_disruption | bool
+  - medium_severity | bool
+  - no_reboot_needed | bool
+  - ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+  - '"tmux" in ansible_facts.packages'
+  - tmux_in_bashrc is defined and tmux_in_bashrc.matched == 0
+  - tmux_in_profile_d is defined and tmux_in_profile_d.matched == 0
+  tags:
+  - CCE-90782-4
+  - DISA-STIG-RHEL-08-020041
+  - configure_bashrc_tmux
+  - configure_strategy
+  - low_complexity
+  - low_disruption
+  - medium_severity
+  - no_reboot_needed
+
 - name: 'Support session locking with tmux (not enforcing): Insert the correct script into /etc/profile.d/tmux.sh'
   ansible.builtin.blockinfile:
     path: /etc/profile.d/tmux.sh
