@@ -14160,11 +14160,43 @@
   - medium_severity
   - no_reboot_needed
 
+- name: Remove tmux profile
+  ansible.builtin.file:
+    path: /etc/profile.d/tmux.sh
+    state: absent
+  when:
+  - DISA_STIG_RHEL_08_020041 | bool
+  - configure_bashrc_tmux | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - low_disruption | bool
+  - medium_severity | bool
+  - no_reboot_needed | bool
+  - ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+  - '"tmux" in ansible_facts.packages'
+  - tmux_in_bashrc is defined and tmux_in_bashrc.matched == 0
+  - tmux_in_profile_d is defined and tmux_in_profile_d.matched == 0
+  tags:
+  - CCE-90782-4
+  - DISA-STIG-RHEL-08-020041
+  - configure_bashrc_tmux
+  - configure_strategy
+  - low_complexity
+  - low_disruption
+  - medium_severity
+  - no_reboot_needed
+
 - name: 'Support session locking with tmux (not enforcing): Insert the correct script into /etc/profile.d/tmux.sh'
   ansible.builtin.blockinfile:
     path: /etc/profile.d/tmux.sh
-    block: "if [ \"$PS1\" ]; then\n  parent=$(ps -o ppid= -p $$)\n  name=$(ps -o comm= -p $parent)\n  case \"$name\" in (sshd|login)\
-      \ tmux ;; esac\nfi\n"
+    block: |
+    if ["$USER" != "ansible" ]; then
+    if [ "$PS1" ]; then
+      parent=$(ps -o ppid= -p $$)
+      name=$(ps -o comm= -p $parent)
+      case "$name" in (sshd|login) tmux ;; esac
+    fi
+    fi
     create: true
   when:
   - DISA_STIG_RHEL_08_020041 | bool
