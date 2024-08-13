@@ -2,7 +2,7 @@
 - name: Create and configure a volume encrypted with LUKS
   hosts: all
   roles:
-    - rhel-system-roles.storage
+    - redhat.rhel_system_roles.storage
   vars:
     storage_volumes:
       - name: nfs-data
