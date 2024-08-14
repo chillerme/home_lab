@@ -35,7 +35,7 @@
     #user.max_user_namespaces (needed for vms that use containers)
     DISA_STIG_RHEL_08_040284: false
     #PermitRootLogin no
-    DISA_STIG_RHEL_08_010550: false
+    #DISA_STIG_RHEL_08_010550: false
 
 - hosts: rhel8_stig_default
   roles:
