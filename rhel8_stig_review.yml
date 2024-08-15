@@ -1,0 +1,7 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - shell: fips-mode-setup --check
+      register: fips
+
+    - debug: var=fips.stdout_lines
