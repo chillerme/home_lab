@@ -5,5 +5,5 @@
       shell: fips-mode-setup --check
       register: fips
     - name: V-230254_Result
-    - debug:
+      debug:
         var: fips
