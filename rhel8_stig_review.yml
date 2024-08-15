@@ -4,5 +4,6 @@
     - name: V-230254
       shell: fips-mode-setup --check
       register: fips
+    - name: V-230254_Result
     - debug:
-        var: fips.stdout_lines
+        var: fips
