@@ -16,7 +16,7 @@
 
     - name: Gather all updates into a single file
       run_once: true
-      delegate_to: localhost
+      delegate_to: hrtsofpiaapcon.sofpi.sofapps.com
       shell: cat /tmp/updates_*.txt > /tmp/the_monthly_8updates.txt  # Replace with the desired file path on the control server
 
     - name: Remove temporary files on each host
