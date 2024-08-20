@@ -1,0 +1,35 @@
+---
+- name: RHEL 8 Yum List Updates
+  hosts: all
+
+  tasks:
+    - name: List available updates
+      become: true
+      shell: yum list updates | sed '/Last metadata/d; /Available Upgrades/d; /Updating Subscription/d' | awk '{print $1, $2}'
+      register: yum_updates
+
+    - name: Save updates to a temporary file on each host
+      local_action:
+        module: copy
+        content: "{{ yum_updates.stdout }}"
+        dest: "/tmp/updates_{{ inventory_hostname }}.txt"
+
+    - name: Gather all updates into a single file
+      run_once: true
+      delegate_to: localhost
+      shell: cat /tmp/updates_*.txt > /tmp/the_monthly_8updates.txt  # Replace with the desired file path on the control server
+
+    - name: Remove temporary files on each host
+      local_action:
+        module: file
+        path: "/tmp/updates_{{ inventory_hostname }}.txt"
+        state: absent
+
+
+- name: Sort and Remove Duplicate files On Ansible Server
+  hosts: localhost
+
+  tasks:
+    - name: RHEL 8 Files
+      become: true
+      shell: sort /tmp/the_monthly_8updates.txt | awk '!seen[$0]++' > /tmp/RHEL_8_Approved_Package_List_Updates.txt
