@@ -1,13 +1,13 @@
 ---
 - hosts: all
   tasks:
-- name: Template a file for pwhistory.conf
-  ansible.builtin.template:
-    src: /templates/pwhistory.conf.j2
-    dest: /etc/security/pwhistory.conf
-    owner: root
-    group: root
-    mode: '0644'
+  - name: Template a file for pwhistory.conf
+    ansible.builtin.template:
+      src: /templates/pwhistory.conf.j2
+      dest: /etc/security/pwhistory.conf
+      owner: root
+      group: root
+      mode: '0644'
   
   - name: Template a file for password-auth
     ansible.builtin.template:
