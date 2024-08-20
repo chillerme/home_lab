@@ -27,7 +27,7 @@
 
 
 - name: Sort and Remove Duplicate files On Ansible Server
-  hosts: localhost
+  hosts: hrtsofpiaapcon.sofpi.sofapps.com
 
   tasks:
     - name: RHEL 8 Files
