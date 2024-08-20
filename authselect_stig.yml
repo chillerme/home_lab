@@ -2,28 +2,28 @@
 - hosts: all
   tasks:
 - name: Template a file for pwhistory.conf
-  ansible.builtin.template:
-    src: /templates/pwhistory.conf.j2
-    dest: /etc/security/pwhistory.conf
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Template a file for password-auth
-  ansible.builtin.template:
-    src: /templates/password-auth.j2
-    dest: /etc/authselect/custom/hardening/password-auth
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Template a file for system-auth
-  ansible.builtin.template:
-    src: /templates/system-auth.j2
-    dest: /etc/authselect/custom/hardening/system-auth
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Apply Authselect 
-  command: authselect apply-changes
+    ansible.builtin.template:
+      src: /templates/pwhistory.conf.j2
+      dest: /etc/security/pwhistory.conf
+      owner: root
+      group: root
+      mode: '0644'
+  
+  - name: Template a file for password-auth
+    ansible.builtin.template:
+      src: /templates/password-auth.j2
+      dest: /etc/authselect/custom/hardening/password-auth
+      owner: root
+      group: root
+      mode: '0644'
+  
+  - name: Template a file for system-auth
+    ansible.builtin.template:
+      src: /templates/system-auth.j2
+      dest: /etc/authselect/custom/hardening/system-auth
+      owner: root
+      group: root
+      mode: '0644'
+  
+  - name: Apply Authselect 
+    command: authselect apply-changes
