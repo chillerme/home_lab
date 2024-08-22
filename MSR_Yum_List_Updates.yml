@@ -26,10 +26,8 @@
         state: absent
 
 
-- name: Sort and Remove Duplicate files On Ansible Server
-  hosts: hrtsofpiaapcon.sofpi.sofapps.com
+    - name: Sort and Remove Duplicate files On Ansible Server
+      hosts: hrtsofpiaapcon.sofpi.sofapps.com
 
-  tasks:
     - name: RHEL 8 Files
-      become: true
       shell: sort /tmp/the_monthly_8updates.txt | awk '!seen[$0]++' > /tmp/RHEL_8_Approved_Package_List_Updates.txt
