@@ -2,3 +2,4 @@ collections:
   - name: community.general
   - name: ansible.posix
   - name: redhat.rhel_system_roles
+  - name: ansible.builtin.link
