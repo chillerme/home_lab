@@ -1,0 +1,23 @@
+- hosts: all
+  tasks:
+    - name: Ensure the 'Match User ansible' block is present in /etc/ssh/sshd_config
+      blockinfile:
+        path: /etc/ssh/sshd_config
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - User-specific SSH configuration"
+        block: |
+          Match User ansible
+            PasswordAuthentication no
+            PubkeyAuthentication yes
+        state: present
+
+    - name: Restart SSH service to apply changes
+      service:
+        name: sshd
+        state: restarted
+      when: ansible_os_family != "Debian"
+
+    - name: Restart SSH service on Debian-based systems
+      service:
+        name: ssh
+        state: restarted
+      when: ansible_os_family == "Debian"
