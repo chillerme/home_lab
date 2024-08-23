@@ -1,0 +1,9 @@
+---
+- hosts: all
+  tasks:
+  - name: Template a file for chrony.conf
+    ansible.builtin.template:
+      src: templates/chrony.conf.j2
+      dest: /etc/security/chrony.conf
+      owner: root
+      group: root
