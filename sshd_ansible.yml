@@ -5,7 +5,7 @@
         path: /etc/ssh/sshd_config
         marker: "# {mark} ANSIBLE MANAGED BLOCK - User-specific SSH configuration"
         block: |
-          Match User ansible
+          Match User ansible Address 172.16.30.204
             PasswordAuthentication no
             PubkeyAuthentication yes
         state: present
