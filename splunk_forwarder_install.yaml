@@ -18,20 +18,20 @@
   - name: Splunk Start
     command:
       cmd: /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-password RT@#fghtVJYd
-  #  become_user: splunk
+#    become_user: splunk
     ignore_errors: true
   
   - name: Boot Start
     command:
-      cmd: /opt/splunkforwarder/bin/splunk enable boot-start -user splunk
-    ignore_errors: true
+      cmd: /opt/splunkforwarder/bin/splunk enable boot-start -user splunkfwd
+#    ignore_errors: true
     async: 10
     poll: 0
   
   - name: Make Deployment Client
     command:
       cmd: /opt/splunkforwarder/bin/splunk set deploy-poll 172.16.30.106:8089 -auth admin:RT@#fghtVJYd
-    ignore_errors: true
+ #   ignore_errors: true
   
   - name: Splunk Restart
     command:
