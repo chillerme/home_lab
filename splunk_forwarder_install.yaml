@@ -1,37 +1,37 @@
 ---
-hosts: all
-gather_facts: yes
-tasks:
-- name: Downloading UF
-  get_url:
-    url: https://download.splunk.com/products/universalforwarder/releases/9.3.0/linux/splunkforwarder-9.3.0-51ccf43db5bd.x86_64.rpm
-    dest: /tmp
-    mode: '0755'
-  register: download
-
-- name: Install Splunkservers
-  dnf:
-    name: /tmp/splunkforwarder-9.3.0-51ccf43db5bd.x86_64.rpm
-    state: present
-
-- name: Splunk Start
-  command:
-    cmd: /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-password RT@#fghtVJYd
-#  become_user: splunk
-  ignore_errors: yes
-
-- name: Boot Start
-  command:
-    cmd: /opt/splunkforwarder/bin/splunk enable boot-start -user splunk
-  ignore_errors: yes
-  async: 10
-  poll: 0
-
-- name: Make Deployment Client
-  command:
-    cmd: /opt/splunkforwarder/bin/splunk set deploy-poll 172.16.30.106:8089 -auth admin:RT@#fghtVJYd
-  ignore_errors: yes
-
-- name: Splunk Restart
-  command:
-    cmd: /opt/splunkforwarder/bin/splunk restart
+- hosts: all
+  gather_facts: yes
+  tasks:
+  - name: Downloading UF
+    get_url:
+      url: https://download.splunk.com/products/universalforwarder/releases/9.3.0/linux/splunkforwarder-9.3.0-51ccf43db5bd.x86_64.rpm
+      dest: /tmp
+      mode: '0755'
+    register: download
+  
+  - name: Install Splunkservers
+    dnf:
+      name: /tmp/splunkforwarder-9.3.0-51ccf43db5bd.x86_64.rpm
+      state: present
+  
+  - name: Splunk Start
+    command:
+      cmd: /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-password RT@#fghtVJYd
+  #  become_user: splunk
+    ignore_errors: yes
+  
+  - name: Boot Start
+    command:
+      cmd: /opt/splunkforwarder/bin/splunk enable boot-start -user splunk
+    ignore_errors: yes
+    async: 10
+    poll: 0
+  
+  - name: Make Deployment Client
+    command:
+      cmd: /opt/splunkforwarder/bin/splunk set deploy-poll 172.16.30.106:8089 -auth admin:RT@#fghtVJYd
+    ignore_errors: yes
+  
+  - name: Splunk Restart
+    command:
+      cmd: /opt/splunkforwarder/bin/splunk restart
