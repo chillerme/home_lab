@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  gather_facts: yes
+  gather_facts: true
   tasks:
   - name: Downloading UF
     get_url:
@@ -13,24 +13,25 @@
     dnf:
       name: /tmp/splunkforwarder-9.3.0-51ccf43db5bd.x86_64.rpm
       state: present
+      disable_gpg_check: true
   
   - name: Splunk Start
     command:
       cmd: /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-password RT@#fghtVJYd
   #  become_user: splunk
-    ignore_errors: yes
+    ignore_errors: true
   
   - name: Boot Start
     command:
       cmd: /opt/splunkforwarder/bin/splunk enable boot-start -user splunk
-    ignore_errors: yes
+    ignore_errors: true
     async: 10
     poll: 0
   
   - name: Make Deployment Client
     command:
       cmd: /opt/splunkforwarder/bin/splunk set deploy-poll 172.16.30.106:8089 -auth admin:RT@#fghtVJYd
-    ignore_errors: yes
+    ignore_errors: true
   
   - name: Splunk Restart
     command:
