@@ -2,14 +2,4 @@
   gather_facts: no
   tasks:
     - name: Check if /etc/sysctl.d/99-sysctl.conf is a symbolic link
-      set_fact:
-        ismyhostsalink: "{{ '/etc/sysctl.d/99-sysctl.conf' is link }}"
-
-    - name: Display a message if the file is a symbolic link
-      debug:
-        msg: "The file /etc/sysctl.d/99-sysctl.conf is a symbolic link."
-      when: ismyhostsalink
-
-    - name: Perform a task if the file is not a symbolic link
-      command: echo "The file is not a symbolic link, performing the task."
-      when: not ismyhostsalink
+      ismyhostsalink: "{{ '/etc/sysctl.d/99-sysctl.conf' is link}}"
