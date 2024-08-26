@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: MIT
+---
+- name: Example aide role invocation
+  hosts: all
+  tasks:
+    - name: Include role aide
+      tags:
+        - install
+        - generate_config
+        - init
+        - check
+        - update
+      vars:
+        aide_db_fetch_dir: files
+      ansible.builtin.include_role:
+        name: aide
