@@ -4,7 +4,7 @@
   vars:
     script_path: "/srv/check_home_directory_ownership.sh"
   tasks:
-    - name: Copy the dod_ca.sh script to remote host
+    - name: Copy the check_home_directory_ownership.sh script to remote host
       copy:
         src: templates/check_home_directory_ownership.sh
         dest: "{{ script_path }}"
