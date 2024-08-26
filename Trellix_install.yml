@@ -14,3 +14,7 @@
     args:
       chdir: /root/
 
+  - name: Remove shell script from remote server
+    file:
+      path: /root/installrpm.sh
+      state: absent
