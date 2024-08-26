@@ -10,7 +10,7 @@
     register: download
   
   - name: Install Trellix
-    ansible.builtin.shell: installrpm.sh -i
+    ansible.builtin.shell: sh installrpm.sh -i
     args:
       chdir: /root/
 
