@@ -1,0 +1,30 @@
+---
+- name: Check home directories group ownership for local interactive users
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Get list of local interactive users
+      ansible.builtin.command: awk -F: '($3>=1000)&&($7 !~ /nologin/){print $1,$4,$6}' /etc/passwd
+      register: local_users
+
+    - name: Ensure home directories are group-owned by the primary group
+      ansible.builtin.shell: |
+        homedir="{{ item.split()[2] }}"
+        username="{{ item.split()[0] }}"
+        primary_gid="{{ item.split()[1] }}"
+        primary_group_name=$(getent group "{{ primary_gid }}" | awk -F: '{print $1}')
+        dir_group=$(stat -c "%G" "{{ homedir }}")
+        if [ "$primary_group_name" != "$dir_group" ]; then
+            echo "WARNING: Home directory $homedir for user $username is not group-owned by the primary group ($primary_group_name)."
+        else
+            echo "OK: Home directory $homedir for user $username is correctly group-owned by the primary group ($primary_group_name)."
+        fi
+      loop: "{{ local_users.stdout_lines }}"
+      when: item.split()[2] is directory
+      register: ownership_check
+
+    - name: Output the results
+      ansible.builtin.debug:
+        msg: "{{ item.stdout }}"
+      loop: "{{ ownership_check.results }}"
