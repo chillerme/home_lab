@@ -15,7 +15,7 @@
       register: results
       
     - debug:
-        var: results.stdout
+        var: results.stdout_lines
 
     - name: Delete the check_home_directory_ownership.sh script
       file:
