@@ -1,23 +1,23 @@
 ---
-- name: Copy, execute, and delete dod_ca.sh script
+- name: Copy, execute, and delete check_home_directory_ownership.sh script
   hosts: deploy
   vars:
-    script_path: "/srv/dod_ca.sh"
+    script_path: "/srv/check_home_directory_ownership.sh"
   tasks:
     - name: Copy the dod_ca.sh script to remote host
       copy:
-        src: ../../vars/dod_ca.sh
+        src: templates/check_home_directory_ownership.sh
         dest: "{{ script_path }}"
         mode: '0700'
 
-    - name: Execute the dod_ca.sh script
+    - name: Execute the check_home_directory_ownership.sh script
       command: "{{ script_path }}"
       register: results
       
     - debug:
         var: results.stdout
 
-    - name: Delete the dod_ca.sh script
+    - name: Delete the check_home_directory_ownership.sh script
       file:
         path: "{{ script_path }}"
         state: absent
