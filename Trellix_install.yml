@@ -1,0 +1,16 @@
+---
+- hosts: all
+  gather_facts: true
+  tasks:
+  - name: Downloading Trellix
+    get_url:
+      url: http://hrtsofpic2repo8/trellix/installrpm.sh
+      dest: /root
+      mode: '0755'
+    register: download
+  
+  - name: Install Trellix
+    ansible.builtin.shell: installrpm.sh -i
+    args:
+      chdir: /root/
+
