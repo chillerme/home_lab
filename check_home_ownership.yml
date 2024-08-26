@@ -1,30 +1,61 @@
 ---
-- name: Check home directories group ownership for local interactive users
+- name: Ensure home directories are group-owned by the user's primary group
   hosts: all
   become: yes
   tasks:
 
-    - name: Get list of local interactive users
-      ansible.builtin.command: "awk -F: '($3>=1000)&&($7 !~ /nologin/){print $1,$4,$6}' /etc/passwd"
+    - name: Get a list of local interactive users
+      command: "awk -F: '($3>=1000)&&($7 !~ /nologin/){print $1}' /etc/passwd"
       register: local_users
 
-    - name: Ensure home directories are group-owned by the primary group
-      ansible.builtin.shell: |
-        homedir="{{ item.split()[2] }}"
-        username="{{ item.split()[0] }}"
-        primary_gid="{{ item.split()[1] }}"
-        primary_group_name=$(getent group "{{ primary_gid }}" | awk -F: '{print $1}')
-        dir_group=$(stat -c "%G" "{{ homedir }}")
-        if [ "$primary_group_name" != "$dir_group" ]; then
-            echo "WARNING: Home directory $homedir for user $username is not group-owned by the primary group ($primary_group_name)."
-        else
-            echo "OK: Home directory $homedir for user $username is correctly group-owned by the primary group ($primary_group_name)."
-        fi
-      loop: "{{ local_users.stdout_lines }}"
-      when: item.split()[2] is directory
-      register: ownership_check
+    - name: Ensure home directories are group-owned by the user's primary group
+      block:
+        - name: Get user's home directory and primary group ID
+          command: "getent passwd {{ item }}"
+          register: user_info
+          changed_when: false
+          with_items: "{{ local_users.stdout_lines }}"
+          loop_control:
+            loop_var: user
 
-    - name: Output the results
-      ansible.builtin.debug:
-        msg: "{{ item.stdout }}"
-      loop: "{{ ownership_check.results }}"
+        - name: Check if home directory exists
+          stat:
+            path: "{{ user_info.stdout.split(':')[5] }}"
+          register: homedir_status
+          with_items: "{{ user_info.results }}"
+          loop_control:
+            loop_var: info
+
+        - name: Get group name of the primary group ID
+          command: "getent group {{ user_info.stdout.split(':')[3] }}"
+          register: group_info
+          when: homedir_status.stat.exists
+          with_items: "{{ user_info.results }}"
+          loop_control:
+            loop_var: info
+
+        - name: Get the group owner of the home directory
+          command: "stat -c '%G' {{ user_info.stdout.split(':')[5] }}"
+          register: dir_group
+          when: homedir_status.stat.exists
+          with_items: "{{ user_info.results }}"
+          loop_control:
+            loop_var: info
+
+        - name: Ensure home directory is group-owned by the primary group
+          debug:
+            msg: >
+              "WARNING: Home directory {{ user_info.stdout.split(':')[5] }} for user {{ user_info.stdout.split(':')[0] }} is not group-owned by the primary group {{ group_info.stdout.split(':')[0] }}."
+          when: dir_group.stdout != group_info.stdout.split(':')[0]
+          with_items: "{{ user_info.results }}"
+          loop_control:
+            loop_var: info
+
+        - name: Confirm correct group ownership
+          debug:
+            msg: >
+              "OK: Home directory {{ user_info.stdout.split(':')[5] }} for user {{ user_info.stdout.split(':')[0] }} is correctly group-owned by the primary group {{ group_info.stdout.split(':')[0] }}."
+          when: dir_group.stdout == group_info.stdout.split(':')[0]
+          with_items: "{{ user_info.results }}"
+          loop_control:
+            loop_var: info
