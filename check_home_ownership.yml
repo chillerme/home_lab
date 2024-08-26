@@ -13,8 +13,9 @@
     - name: Execute the check_home_directory_ownership.sh script
       command: "{{ script_path }}"
       register: results
-      
-    - debug:
+
+    - name: Home Directory Ownership
+      debug:
         var: results.stdout_lines
 
     - name: Delete the check_home_directory_ownership.sh script
