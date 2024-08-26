@@ -13,6 +13,8 @@
     ansible.builtin.shell: sh installrpm.sh -i
     args:
       chdir: /root/
+    register: install_output
+      failed_when: "'An higher or same version of the agent is already installed. Installation cannot continue' not in install_output.stdout"
 
   - name: Remove shell script from remote server
     file:
