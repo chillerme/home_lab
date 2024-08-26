@@ -1,6 +1,6 @@
 ---
 - name: Copy, execute, and delete check_home_directory_ownership.sh script
-  hosts: deploy
+  hosts: all
   vars:
     script_path: "/srv/check_home_directory_ownership.sh"
   tasks:
