@@ -11,6 +11,6 @@
         - check
         - update
       vars:
-        aide_db_fetch_dir: files
+        aide_db_fetch_dir: /tmp
       ansible.builtin.include_role:
         name: aide
