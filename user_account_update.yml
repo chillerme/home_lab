@@ -2,7 +2,7 @@
 - name: change user password accounts
   hosts: all
   tasks:
-    - name: change password for internal defadmin
+    - name: change password for defadmin
       ansible.builtin.user:
         name: defadmin
         state: present
@@ -16,7 +16,7 @@
         password_lock: false
         password: "{{ cstrawn_pass | password_hash('sha512') }}"
 
-    - name: change password for internal root
+    - name: change password for root
       ansible.builtin.user:
         name: root
         state: present
