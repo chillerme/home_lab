@@ -8,6 +8,12 @@
       update_cache: yes
       update_only: yes
     register: dnf_update_status
+    when: ansible_hostname not in [
+      'hrtsofpiaapcon.sofpi.sofapps.com',
+      'hrtsofpiaapeda.sofpi.sofapps.com',
+      'hrtsofpiaaphub.sofpi.sofapps.com',
+      'hrtsofpiaappsql.sofpi.sofapps.com'
+    ]
 
   - name: Remove packates not needed anymore
     dnf:
