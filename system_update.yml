@@ -5,18 +5,23 @@
     dnf:
       name: '*'
       state: latest
-      update_cache: yes
-      update_only: yes
+      update_cache: true
+      update_only: true
     register: dnf_update_status
 
   - name: Remove packates not needed anymore
     dnf:
-      autoremove: yes
+      autoremove: true
 
   - name: Reboot when packages were updated
     reboot:
       post_reboot_delay: 60
+    register: dnf_reboot_status
     when: dnf_update_status.changed
+
+  - name: Run insight-client command after reboot
+    command: insight-client
+    when: dnf_reboot_status.changed
 
 - hosts: apt
   tasks:
@@ -24,13 +29,13 @@
     apt:
       name: '*'
       state: latest
-      update_cache: yes
-      only_upgrade: yes
+      update_cache: true
+      only_upgrade: true
     register: apt_update_status
 
   - name: Remove packages not needed anymore
     apt:
-      autoremove: yes
+      autoremove: true
 
   - name: Reboot when packages were updated
     reboot:
