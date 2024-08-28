@@ -24,6 +24,14 @@
       owner: root
       group: root
       mode: '0644'
+
+  - name: Template a file for postlogin
+    ansible.builtin.template:
+      src: templates/postlogin.j2
+      dest: /etc/authselect/custom/hardening/postlogin
+      owner: root
+      group: root
+      mode: '0644'
   
   - name: Apply Authselect 
     command: authselect apply-changes
