@@ -6,9 +6,9 @@ dnf:
   hosts:
     ipa:
     boot:
-    awx:
+    aap:
 
 ipa_clients:
   ipa:
   boot:
-  awx:
+  aap:
