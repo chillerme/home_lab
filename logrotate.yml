@@ -4,7 +4,7 @@
   - name: Template a file for chrony.conf
     ansible.builtin.template:
       src: templates/custom_me.j2
-      dest: /etc/logrotate.d/custom_me.j2
+      dest: /etc/logrotate.d/custom_me
       owner: root
       group: root
       mode: '0644'
