@@ -1,19 +1,39 @@
+#---
+#- name: List Available DNF Updates
+#  hosts: dnf
+#  tasks:
+#    - name: List Available Updates using dnf check-update
+#      command: dnf check-update --quiet
+#      register: dnf_updates
+#      changed_when: false
+#
+#    - name: Parse available updates
+#      set_fact:
+#        packages: "{{ dnf_updates.stdout_lines | select('search', '^[a-zA-Z0-9]') | map('split', ' ') | map('first') | list }}"#
+#
+#    - name: Print the package facts
+#      debug:
+#        msg: |
+#          {% for package in packages %}
+#          {{ package }}
+#          {% endfor %}
+
+
 ---
-- name: List Available DNF Updates
-  hosts: dnf
+- hosts: all
+  gather_facts: false
+  
   tasks:
-    - name: List Available Updates using dnf check-update
-      command: dnf check-update --quiet
-      register: dnf_updates
-      changed_when: false
+    - name: Check packages to upgrade
+      dnf:
+        list: updates
+      register: packages
 
-    - name: Parse available updates
-      set_fact:
-        packages: "{{ dnf_updates.stdout_lines | select('search', '^[a-zA-Z0-9]') | map('split', ' ') | map('first') | list }}"
-
-    - name: Print the package facts
+    - name: Show packages to upgrade
       debug:
-        msg: |
-          {% for package in packages %}
-          {{ package }}
-          {% endfor %}
+        msg: >-
+          {%- set output=[] -%}
+          {%- for p in packages.results -%}
+          {{ output.append('%-40s' % (p.name ~ '-' ~ p.version) ~ ' | repo: ' ~ p.repo) }}
+          {%- endfor -%}
+          {{ output }}
