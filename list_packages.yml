@@ -34,7 +34,6 @@
         msg: >-
           {%- set output=[] -%}
           {%- for p in packages.results -%}
-#          {{ output.append('%-40s' % (p.name ~ '-' ~ p.version) ~ ' | repo: ' ~ p.repo) }}
-          {{ output.append('%-40s' % (p.name ~ '-' ~ p.version)) }}
+          {{ output.append('%-40s' % (p.name ~ '-' ~ p.version) ~ ' | repo: ' ~ p.repo) }}
           {%- endfor -%}
           {{ output }}
