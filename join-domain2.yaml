@@ -1,0 +1,12 @@
+- hosts: all
+  vars:
+    ad_integration_realm: "sofpi.sofapps.dev"
+    ad_integration_user: "{{ user }}"
+    ad_integration_password: "{{ password }}"
+    ad_integration_manage_crypto_policies: false
+    ad_integration_allow_rc4_crypto: false
+    ad_integration_preserve_authselect_profile: true
+    ad_dyndns_update: true
+    no_log: false
+  roles:
+    - redhat.rhel_system_roles.ad_integration
