@@ -14,4 +14,4 @@
     ad_integration_preserve_authselect_profile: true
     ad_dyndns_update: true
   roles:
-    - linux-system-roles.ad_integration
+    - rhel-system-roles.ad_integration
