@@ -13,6 +13,5 @@
     ad_integration_allow_rc4_crypto: false
     ad_integration_preserve_authselect_profile: true
     ad_dyndns_update: true
-    no_log: false
   roles:
-    - redhat.rhel_system_roles.ad_integration
+    - ad_integration
