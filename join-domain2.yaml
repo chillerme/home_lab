@@ -8,4 +8,4 @@
     ad_integration_preserve_authselect_profile: true
     ad_dyndns_update: true
   roles:
-    - redhat.rhel_system_roles.ad_integration
+    - ad_integration
