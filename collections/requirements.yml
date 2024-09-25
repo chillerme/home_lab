@@ -2,4 +2,4 @@ collections:
   - name: community.general
   - name: ansible.posix
   - name: redhat.rhel_system_roles
-  - name: linux-system-roles.crypto_policies
+  - name: linux-system-roles
