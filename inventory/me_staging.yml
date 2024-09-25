@@ -1,0 +1,26 @@
+all:
+  children:
+    aap:
+      hosts:
+        STGAAPAutohub
+        STGAAPEvent
+        STGAAPHybrid
+        STGAAPPSQL
+    docker:
+      hosts:
+        STG-DOCKER1
+        STG-MRL-DOCKER
+    postgres:
+      hosts:
+        STG-MRL-Postgres
+        STG-POSTGRES
+    splunk:
+      hosts:
+        STG-Splunk-Deployment
+        STG-Splunk-Indexer
+        STG-Splunk-Search-Head
+    ungrouped:
+      hosts:
+        STG-REPO1
+        STG-RSYSLOG
+        STG-ACAS
