@@ -20,6 +20,6 @@
 #    when: dnf_update_status.changed
 
   - name: Reboot in 120 seconds
-    ansible.builtin.command: /usr/sbin/reboot 120
+    ansible.builtin.command: /usr/sbin/shutdown -r +2
     when: dnf_update_status.changed
     
