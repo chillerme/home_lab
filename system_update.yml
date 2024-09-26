@@ -13,31 +13,13 @@
     dnf:
       autoremove: true
 
-  - name: Reboot when packages were updated
-    reboot:
-      post_reboot_delay: 60
-    register: dnf_reboot_status
+#  - name: Reboot when packages were updated
+#    reboot:
+#      post_reboot_delay: 60
+#    register: dnf_reboot_status
+#    when: dnf_update_status.changed
+
+  - name: Reboot in 120 seconds
+    ansible.builtin.command: /usr/sbin/reboot 120
     when: dnf_update_status.changed
-
-  - name: Run insight-client command after reboot
-    command: insight-client
-    when: dnf_reboot_status.changed
-
-- hosts: apt
-  tasks:
-  - name: Update all installed packages using APT module
-    apt:
-      name: '*'
-      state: latest
-      update_cache: true
-      only_upgrade: true
-    register: apt_update_status
-
-  - name: Remove packages not needed anymore
-    apt:
-      autoremove: true
-
-  - name: Reboot when packages were updated
-    reboot:
-      post_reboot_delay: 180
-    when: apt_update_status.changed
+    
