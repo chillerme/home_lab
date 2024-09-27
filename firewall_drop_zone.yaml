@@ -1,0 +1,48 @@
+---
+- name: Firewall DROP Configuration
+  hosts: deploy
+  become: yes
+
+  tasks:
+    - name: Enable SSH
+      firewalld:
+        zone: drop
+        service: ssh
+        permanent: true
+        state: enabled
+
+    - name: Enable drop zone
+      firewalld:
+        zone: drop
+        state: enabled
+        permanent: true
+        icmp_block_inversion: true
+
+    - name: Enable echo-request
+      firewalld:
+        zone: drop
+        state: enabled
+        permanent: true
+        icmp_block: echo-request
+
+    - name: Enable echo-reply
+      firewalld:
+        zone: drop
+        state: enabled
+        permanent: true
+        icmp_block: echo-reply
+
+    - name: Ensure /etc/firewalld/firewalld.conf contains DefaultZone=drop
+      lineinfile:
+        path: /etc/firewalld/firewalld.conf
+        regexp: '^DefaultZone='
+        line: 'DefaultZone=drop'
+        backup: yes
+      notify:
+        - restart firewalld
+
+  handlers:
+    - name: restart firewalld
+      service:
+        name: firewalld
+        state: restarted
