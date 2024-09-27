@@ -4,11 +4,17 @@
   vars:
     script_path: "/srv/dod_ca.sh"
   tasks:
-    - name: Copy the dod_ca.sh script to remote host
-      copy:
-        src: ../../vars/dod_ca.sh
+    - name: Download DoD CA script
+      ansible.builtin.get_url:
+        url: https://gist.githubusercontent.com/AfroThundr3007730/ba99753dda66fc4abaf30fb5c0e5d012/raw/125dd03b4466f5137f39548caee43a0f62e79a5b/add-dod-certs.sh
         dest: "{{ script_path }}"
         mode: '0700'
+  
+#    - name: Copy the dod_ca.sh script to remote host
+#      copy:
+#        src: ../../vars/dod_ca.sh
+#        dest: "{{ script_path }}"
+#        mode: '0700'
 
     - name: Execute the dod_ca.sh script
       command: "{{ script_path }}"
