@@ -7,5 +7,5 @@
     rhc_auth:
       activation_keys:
         keys:
-          -  "digdag_me_26"
+          -  "{{ activationKey }}"
     rhc_organization: 6157000
