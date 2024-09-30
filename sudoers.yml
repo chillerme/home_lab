@@ -1,18 +1,10 @@
 ---
 - hosts: deploy
   vars:
-    - PermitAdminGroups: core_system_engineers@sofpi.sofapps.dev
     - PermitDevGroups: dev_linux_access@sofpi.sofapps.dev
   tasks:
-    - name: Realm Permit Access to {{ PermitAdminGroups }} and {{ PermitDevGroups }}
-      command: realm permit -g '{{ PermitAdminGroups }}  {{ PermitDevGroups }}'
-
-    - name: Check if {{ PermitAdminGroups }} exist in /etc/sudoers
-      lineinfile:
-        path: /etc/sudoers
-        regexp: '^%{{ PermitAdminGroups }}'
-        line: '%{{ PermitAdminGroups }} ALL=(ALL)ALL'
-        validate: 'visudo -cf %s'
+    - name: Realm Permit Access to  {{ PermitDevGroups }}
+      command: realm permit -g '{{ PermitDevGroups }}'
 
     - name: Check if {{ PermitDevGroups }} exist in /etc/sudoers
       lineinfile:
