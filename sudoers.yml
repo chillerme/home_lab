@@ -1,0 +1,38 @@
+---
+- hosts: deploy
+  vars:
+    - PermitAdminGroups: core_system_engineers@sofpi.sofapps.dev
+    - PermitDevGroups: dev_linux_access@sofpi.sofapps.dev
+  tasks:
+    - name: Realm Permit Access to {{ PermitAdminGroups }} and {{ PermitDevGroups }}
+      command: realm permit -g '{{ PermitAdminGroups }}, {{ PermitDevGroups }}'
+
+    - name: Check if {{ PermitAdminGroups }} exist in /etc/sudoers
+      lineinfile:
+        path: /etc/sudoers
+        regexp: '^%{{ PermitAdminGroups }}'
+        line: '%{{ PermitAdminGroups }} ALL=(ALL)ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Check if {{ PermitDevGroups }} exist in /etc/sudoers
+      lineinfile:
+        path: /etc/sudoers
+        regexp: '^%{{ PermitDevGroups }}'
+        line: '%{{ PermitDevGroups }} ALL=(ALL)ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Install mkhomedir
+      dnf:
+        name:
+        - oddjob-mkhomedir
+        - oddjob
+        state: latest
+
+    - name: Enable mkhomdir in authprofile
+      command: authselect enable-feature with-mkhomedir
+
+    - name: Make sure a service unit is running
+      systemd_service:
+        enabled: true
+        state: started
+        name: oddjobd
