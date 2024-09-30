@@ -6,5 +6,6 @@
   vars:
     rhc_auth:
       activation_keys:
-        keys: -  "{{ activationKey }}"
+        keys:
+          -  "digdag_me_26"
     rhc_organization: 6157000
