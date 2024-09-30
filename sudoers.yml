@@ -3,6 +3,9 @@
   vars:
     - PermitDevGroups: dev_linux_access@sofpi.sofapps.dev
   tasks:
+    - name: Realm Remove All
+      command: realm deny --all
+      
     - name: Realm Permit Access to  {{ PermitDevGroups }}
       command: realm permit -g '{{ PermitDevGroups }}'
 
