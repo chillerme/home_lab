@@ -5,7 +5,7 @@
     - PermitDevGroups: dev_linux_access@sofpi.sofapps.dev
   tasks:
     - name: Realm Permit Access to {{ PermitAdminGroups }} and {{ PermitDevGroups }}
-      command: realm permit -g '{{ PermitAdminGroups }}, {{ PermitDevGroups }}'
+      command: realm permit -g '{{ PermitAdminGroups }}  {{ PermitDevGroups }}'
 
     - name: Check if {{ PermitAdminGroups }} exist in /etc/sudoers
       lineinfile:
