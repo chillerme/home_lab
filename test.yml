@@ -3,7 +3,7 @@
   tasks:
     - name: Another symbolic mode example, adding some permissions and removing others
       ansible.builtin.copy:
-        src: /home/ansible/foo.conf
+        src: logrotate.yml
         dest: /srv/foo.conf
         owner: ansible
         group: ansible
