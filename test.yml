@@ -1,5 +1,5 @@
 ---
-- hosts: deploy
+- hosts: all
   tasks:
     - name: Another symbolic mode example, adding some permissions and removing others
       ansible.builtin.copy:
