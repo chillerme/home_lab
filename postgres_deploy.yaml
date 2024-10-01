@@ -10,15 +10,11 @@
           3434356539323165630a646139373533336465353139633863353864633633376665343838643838
           3830
     postgresql_pg_hba_conf:
-      - type: local
-        database: all
-        user: all
-        auth_method: peer
       - type: host
         database: all
         user: all
         address: '127.0.0.1/32'
-        auth_method: ident
+        auth_method: scram-sha-256
       - type: host
         database: all
         user: all
@@ -34,7 +30,7 @@
       shared_buffers: 128MB
       huge_pages: try
     postgresql_ssl_enable: true
-#    postgresql_cert_name: /etc/certs/server
+    postgresql_cert_name: /etc/ssl/certs/dev-dms_sofapps_dev
     postgresql_server_tuning: false
 
   roles:
