@@ -1,0 +1,41 @@
+- name: Manage postgres
+  hosts: postgres
+  vars:
+    postgresql_version: "15"
+    postgresql_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          37396361643238643638333436633033613339333262376337623239333239323335313032626137
+          3861383864343037336461376237316239666534656465630a356462653830326334356534623162
+          62353831396137386331396466343364366338333632613763613862623264393138306635616432
+          3434356539323165630a646139373533336465353139633863353864633633376665343838643838
+          3830
+    postgresql_pg_hba_conf:
+      - type: local
+        database: all
+        user: all
+        auth_method: peer
+      - type: host
+        database: all
+        user: all
+        address: '127.0.0.1/32'
+        auth_method: ident
+      - type: host
+        database: all
+        user: all
+        address: '{{ ip }}'
+        auth_method: scram-sha-256
+      - type: hostssl
+        database: all
+        user: all
+        address: '{{ ip }}'
+        auth_method: scram-sha-256
+    postgresql_server_conf:
+      ssl: on
+      shared_buffers: 128MB
+      huge_pages: try
+    postgresql_ssl_enable: true
+#    postgresql_cert_name: /etc/certs/server
+    postgresql_server_tuning: false
+
+  roles:
+    - redhat.rhel_system_roles.postgresql
