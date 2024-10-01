@@ -1,0 +1,10 @@
+---
+- hosts: deploy
+  tasks:
+    - name: Another symbolic mode example, adding some permissions and removing others
+      ansible.builtin.copy:
+        src: /srv/foo.conf
+        dest: /srv/foo.conf
+        owner: root
+        group: root
+        mode: u+rw,g-wx,o-rwx
