@@ -25,12 +25,6 @@
         user: all
         address: '{{ ip }}'
         auth_method: scram-sha-256
-    postgresql_server_conf:
-      ssl: on
-      shared_buffers: 128MB
-      huge_pages: try
-    postgresql_ssl_enable: true
-    postgresql_cert_name: /etc/ssl/certs/dev-dms_sofapps_dev
     postgresql_server_tuning: false
 
   roles:
