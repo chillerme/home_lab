@@ -25,6 +25,9 @@
         user: all
         address: '{{ ip }}'
         auth_method: scram-sha-256
+    postgresql_server_conf:
+      shared_buffers: 128MB
+      huge_pages: try
     postgresql_server_tuning: false
 
   roles:
