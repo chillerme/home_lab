@@ -30,7 +30,7 @@
       huge_pages: try
       password_encryption: scram-sha-256
       port: 5432
-      listen_addresses: '*'
+      listen_addresses: "*"
     postgresql_server_tuning: false
 
   roles:
