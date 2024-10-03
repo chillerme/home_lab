@@ -12,11 +12,13 @@ all:
         STG-DOCKER1:
         STG-MRL-DOCKER:
         dev-dms-doc:
+        stg-dms-doc:
     postgres:
       hosts:
         STG-MRL-Postgres:
         STG-POSTGRES:
         dev-dms-sql:
+        stg-dms-sql:
     splunk:
       hosts:
         STG-Splunk-Deployment:
