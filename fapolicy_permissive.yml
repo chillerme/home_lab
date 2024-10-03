@@ -1,0 +1,10 @@
+---
+- name: Configure Fapolicy Module to Employ a Deny-all, Permit-by-exception Policy to Allow the Execution of Authorized Software Programs and Ensure fapolicyd is Not Permissive
+  hosts: deploy
+  tasks:
+    - name: Ensure fapolicyd is permissive
+      ansible.builtin.lineinfile:
+        path: /etc/fapolicyd/fapolicyd.conf
+        regexp: '^(permissive\s*=\s*).*$'
+        line: 'permissive = 1'
+        backrefs: true
