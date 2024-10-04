@@ -29,5 +29,6 @@ all:
         STG-REPO1:
         STG-RSYSLOG:
         STG-ACAS:
+        stg-nfs:
     deploy:
       hosts:
