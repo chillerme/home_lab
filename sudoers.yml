@@ -6,14 +6,14 @@
     - name: Realm Remove All
       command: realm deny --all
       
-    - name: Realm Permit Access to  {{ PermitDevGroups }}
-      command: realm permit -g '{{ PermitDevGroups }}'
+    - name: Realm Permit Access to  {{ PermitSAGroups }}
+      command: realm permit -g '{{ PermitSAGroups }}'
 
-    - name: Check if {{ PermitDevGroups }} exist in /etc/sudoers
+    - name: Check if {{ PermitSAGroups }} exist in /etc/sudoers
       lineinfile:
         path: /etc/sudoers
-        regexp: '^%{{ PermitDevGroups }}'
-        line: '%{{ PermitDevGroups }} ALL=(ALL)ALL'
+        regexp: '^%{{ PermitSAGroups }}'
+        line: '%{{ PermitSAGroups }} ALL=(ALL)ALL'
         validate: 'visudo -cf %s'
 
     - name: Install mkhomedir
