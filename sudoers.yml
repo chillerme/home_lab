@@ -1,7 +1,7 @@
 ---
 - hosts: deploy
   vars:
-    - PermitDevGroups: dev_linux_access@sofpi.sofapps.dev
+    - PermitSAGroups: core_network_engineers@sofpi.sofapps.dev
   tasks:
     - name: Realm Remove All
       command: realm deny --all
