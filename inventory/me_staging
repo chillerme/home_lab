@@ -23,9 +23,6 @@ all:
         stg-jcmg-sql:
     splunk:
       hosts:
-        STG-Splunk-Deployment:
-        STG-Splunk-Indexer:
-        STG-Splunk-Search-Head:
     ungrouped:
       hosts:
         STG-REPO1:
