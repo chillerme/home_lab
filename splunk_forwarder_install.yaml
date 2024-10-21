@@ -18,7 +18,7 @@
   - name: Splunk Start
     command:
       cmd: /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-password RT@#fghtVJYd
-    become_user: splunkfwd
+#    become_user: splunkfwd
     ignore_errors: true
   
   - name: Boot Start
