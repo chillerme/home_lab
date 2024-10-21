@@ -5,13 +5,13 @@
   - name: Downloading UF
     get_url:
       url: https://download.splunk.com/products/universalforwarder/releases/9.3.1/linux/splunkforwarder-9.3.1-0b8d769cb912.x86_64.rpm
-      dest: /tmp
+      dest: /srv/splunforwarder.rpm
       mode: '0755'
     register: download
   
   - name: Install Splunkservers
     dnf:
-      name: /tmp/splunkforwarder-9.3.0-51ccf43db5bd.x86_64.rpm
+      name: /srv/splunforwarder.rpm
       state: present
       disable_gpg_check: true
   
@@ -36,3 +36,8 @@
   - name: Splunk Restart
     command:
       cmd: /opt/splunkforwarder/bin/splunk restart
+
+  - name: Remove file (delete file)
+    ansible.builtin.file:
+      path: /srv/splunforwarder.rpm
+      state: absent
