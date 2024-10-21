@@ -30,9 +30,10 @@
   
   - name: Make Deployment Client
     command:
-      cmd: /opt/splunkforwarder/bin/splunk set deploy-poll 172.16.30.106:8089 -auth admin:RT@#fghtVJYd
+#      cmd: /opt/splunkforwarder/bin/splunk set deploy-poll 172.16.30.106:8089 -auth admin:RT@#fghtVJYd
+      cmd: /opt/splunkforwarder/bin/splunk set deploy-poll 172.16.30.106:8089
  #   ignore_errors: true
-    become_user: splunk
+    become_user: splunkfwd
   
   - name: Splunk Restart
     command:
