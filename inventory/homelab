@@ -7,6 +7,9 @@ dnf:
     ipa:
     boot:
     aap:
+    nfs:
+    mail:
+    podman:
 
 ipa_clients:
   ipa:
