@@ -1,10 +1,11 @@
 ---
-- name: I am going to install multi packages
+- name: Install multiple packages
   hosts: dnf
   tasks: 
-   - name: install 3 packages
-     dnf:
-      - rhc-worker-playbook
-      - unzip
-      - wget
-     state: latest
+    - name: Install packages
+      dnf:
+        name: 
+          - rhc-worker-playbook
+          - unzip
+          - wget
+        state: latest
