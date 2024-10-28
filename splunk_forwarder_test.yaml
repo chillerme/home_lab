@@ -1,0 +1,37 @@
+---
+- name: Install Splunk Forwarder on RHEL 8 and Configure Deploy-Poll
+  hosts: all
+  become: true
+  tasks:
+    - name: Download Splunk Forwarder RPM
+      ansible.builtin.get_url:
+        url: "https://download.splunk.com/products/universalforwarder/releases/9.3.1/linux/splunkforwarder-9.3.1-0b8d769cb912.x86_64.rpm"
+        dest: "/srv/splunkforwarder.rpm"
+        mode: '0644'
+      register: download_result
+      retries: 3
+      delay: 10
+      until: download_result is succeeded
+
+    - name: Install Splunk Forwarder RPM
+      ansible.builtin.yum:
+        name: /srv/splunkforwarder.rpm
+        state: present
+
+    - name: Start and enable Splunk Forwarder service
+      ansible.builtin.systemd:
+        name: splunk
+        enabled: true
+        state: started
+
+    - name: Configure Splunk forwarder to use deployment server
+      ansible.builtin.command:
+        cmd: "/opt/splunkforwarder/bin/splunk set deploy-poll 172.16.30.106:8089 -auth admin:changeme"
+        creates: /opt/splunkforwarder/etc/system/local/deploymentclient.conf
+      environment:
+        SPLUNK_HOME: /opt/splunkforwarder
+
+    - name: Enable Splunk Forwarder to run as the default user (optional)
+      ansible.builtin.command:
+        cmd: /opt/splunkforwarder/bin/splunk enable boot-start -user splunk
+        creates: /opt/splunkforwarder/etc/splunk-launch.conf
