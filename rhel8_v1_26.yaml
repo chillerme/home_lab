@@ -24137,36 +24137,6 @@
       - no_reboot_needed
       - package_mailx_installed
 
-
-    - name: Gather the package facts
-      package_facts:
-        manager: auto
-      tags:
-      - CCE-85983-5
-      - DISA-STIG-RHEL-08-030030
-      - enable_strategy
-      - low_complexity
-      - low_disruption
-      - medium_severity
-      - no_reboot_needed
-      - package_postfix_installed
-
-    - name: Ensure postfix is installed
-      package:
-        name: postfix
-        state: present
-      when: '"kernel" in ansible_facts.packages'
-      tags:
-      - CCE-85983-5
-      - DISA-STIG-RHEL-08-030030
-      - enable_strategy
-      - low_complexity
-      - low_disruption
-      - medium_severity
-      - no_reboot_needed
-      - package_postfix_installed
-
-
     - name: Gather the package facts
       package_facts:
         manager: auto
