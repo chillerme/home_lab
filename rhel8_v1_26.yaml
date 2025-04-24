@@ -48299,3 +48299,100 @@
       - low_disruption
       - medium_severity
       - no_reboot_needed
+
+
+
+
+##Custom
+    - name: Gather the package facts
+      package_facts:
+        manager: auto
+      tags:
+      - CCE-80909-5
+      - DISA-STIG-RHEL-08-020250
+      - PCI-DSS-Req-8.3
+      - configure_strategy
+      - low_complexity
+      - medium_disruption
+      - medium_severity
+      - no_reboot_needed
+      - sssd_enable_MakeHomeDirectory
+
+    - name: Enable Smartcards in SSSD - Check if system relies on authselect
+      ansible.builtin.stat:
+        path: /usr/bin/authselect
+      register: result_authselect_present
+      when: '"sssd-common" in ansible_facts.packages'
+      tags:
+      - CCE-80909-5
+      - DISA-STIG-RHEL-08-020250
+      - PCI-DSS-Req-8.3
+      - configure_strategy
+      - low_complexity
+      - medium_disruption
+      - medium_severity
+      - no_reboot_needed
+      - sssd_enable_MakeHomeDirectory
+
+    - name: Enable MakeHomeDirectory in SSSD - Remediate using authselect
+      block:
+
+      - name: Enable MakeHomeDirectory in SSSD - Check integrity of authselect current profile
+        ansible.builtin.command:
+          cmd: authselect check
+        register: result_authselect_check_cmd
+        changed_when: false
+        failed_when: false
+
+      - name: Enable MakeHomeDirectory in SSSD - Informative message based on the authselect
+          integrity check result
+        ansible.builtin.assert:
+          that:
+          - result_authselect_check_cmd.rc == 0
+          fail_msg:
+          - authselect integrity check failed. Remediation aborted!
+          - This remediation could not be applied because an authselect profile was not
+            selected or the selected profile is not intact.
+          - It is not recommended to manually edit the PAM files when authselect tool
+            is available.
+          - In cases where the default authselect profile does not cover a specific demand,
+            a custom authselect profile is recommended.
+          success_msg:
+          - authselect integrity check passed
+
+      - name: Enable MakeHomeDirectory in SSSD - Get authselect current features
+        ansible.builtin.shell:
+          cmd: authselect current | tail -n+3 | awk '{ print $2 }'
+        register: result_authselect_features
+        changed_when: false
+        when:
+        - result_authselect_check_cmd is success
+
+      - name: Enable MakeHomeDirectory in SSSD - Ensure "with-mkhomedir" feature is enabled using
+          authselect tool
+        ansible.builtin.command:
+          cmd: authselect enable-feature with-mkhomedir
+        register: result_authselect_enable_feature_cmd
+        when:
+        - result_authselect_check_cmd is success
+        - result_authselect_features.stdout is not search("with-mkhomedir")
+
+      - name: Enable MakeHomeDirectory in SSSD - Ensure authselect changes are applied
+        ansible.builtin.command:
+          cmd: authselect apply-changes -b
+        when:
+        - result_authselect_enable_feature_cmd is not skipped
+        - result_authselect_enable_feature_cmd is success
+      when:
+      - '"sssd-common" in ansible_facts.packages'
+      - result_authselect_present.stat.exists
+      tags:
+      - CCE-80909-5
+      - DISA-STIG-RHEL-08-020250
+      - PCI-DSS-Req-8.3
+      - configure_strategy
+      - low_complexity
+      - medium_disruption
+      - medium_severity
+      - no_reboot_needed
+      - sssd_enable_MakeHomeDirectory
