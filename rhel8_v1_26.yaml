@@ -24137,6 +24137,7 @@
       - no_reboot_needed
       - package_mailx_installed
 
+
     - name: Gather the package facts
       package_facts:
         manager: auto
@@ -24170,98 +24171,6 @@
       - medium_severity
       - no_reboot_needed
       - package_sendmail_removed
-
-
-    - name: Gather the package facts
-      package_facts:
-        manager: auto
-      tags:
-      - CCE-89063-2
-      - DISA-STIG-RHEL-08-030030
-      - NIST-800-53-AU-5(a)
-      - NIST-800-53-AU-5.1(ii)
-      - configure_strategy
-      - low_complexity
-      - low_disruption
-      - medium_severity
-      - no_reboot_needed
-      - postfix_client_configure_mail_alias_postmaster
-
-    - name: Configure System to Forward All Mail From Postmaster to The Root Account
-      block:
-
-      - name: Check for duplicate values
-        lineinfile:
-          path: /etc/aliases
-          create: true
-          regexp: (?i)^\s*postmaster\s*:\s*
-          state: absent
-        check_mode: true
-        changed_when: false
-        register: dupes
-
-      - name: Deduplicate values from /etc/aliases
-        lineinfile:
-          path: /etc/aliases
-          create: true
-          regexp: (?i)^\s*postmaster\s*:\s*
-          state: absent
-        when: dupes.found is defined and dupes.found > 1
-
-      - name: Insert correct line to /etc/aliases
-        lineinfile:
-          path: /etc/aliases
-          create: true
-          regexp: (?i)^\s*postmaster\s*:\s*
-          line: 'postmaster: root'
-          state: present
-      when: '"kernel" in ansible_facts.packages'
-      tags:
-      - CCE-89063-2
-      - DISA-STIG-RHEL-08-030030
-      - NIST-800-53-AU-5(a)
-      - NIST-800-53-AU-5.1(ii)
-      - configure_strategy
-      - low_complexity
-      - low_disruption
-      - medium_severity
-      - no_reboot_needed
-      - postfix_client_configure_mail_alias_postmaster
-
-    - name: Check if newaliases command is available
-      ansible.builtin.stat:
-        path: /usr/bin/newaliases
-      register: result_newaliases_present
-      when: '"kernel" in ansible_facts.packages'
-      tags:
-      - CCE-89063-2
-      - DISA-STIG-RHEL-08-030030
-      - NIST-800-53-AU-5(a)
-      - NIST-800-53-AU-5.1(ii)
-      - configure_strategy
-      - low_complexity
-      - low_disruption
-      - medium_severity
-      - no_reboot_needed
-      - postfix_client_configure_mail_alias_postmaster
-
-    - name: Update postfix aliases
-      ansible.builtin.command:
-        cmd: newaliases
-      when:
-      - '"kernel" in ansible_facts.packages'
-      - result_newaliases_present.stat.exists
-      tags:
-      - CCE-89063-2
-      - DISA-STIG-RHEL-08-030030
-      - NIST-800-53-AU-5(a)
-      - NIST-800-53-AU-5.1(ii)
-      - configure_strategy
-      - low_complexity
-      - low_disruption
-      - medium_severity
-      - no_reboot_needed
-      - postfix_client_configure_mail_alias_postmaster
 
 
     - name: Gather the package facts
@@ -48299,6 +48208,7 @@
       - low_disruption
       - medium_severity
       - no_reboot_needed
+
 
 
 
