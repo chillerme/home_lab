@@ -29,7 +29,7 @@
         --results-arf /usr/local/bin/scap-security-guide-{{ oscap_version }}/oscap-arf.xml \
         --report /usr/local/bin/scap-security-guide-{{ oscap_version }}/oscap-report.html \
         --fetch-remote-resources \
-        /usr/local/bin/scap-security-guide-{{ oscap_version }}/{{ oscap_policy }}.xml
+        /usr/local/bin/scap-security-guide-{{ oscap_version }}/{{ oscap_policy }}.xml > /dev/null 2>&1
 
     always:
     - name: download report
