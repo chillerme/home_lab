@@ -23,7 +23,7 @@
 
   - block:
     - name: run openscap
-      command: oscap xccdf eval \
+      command: oscap --quiet xccdf eval \
         --profile {{ oscap_profile }} \
         --results-arf /tmp/oscap-arf.xml \
         --report /tmp/oscap-report.html \
