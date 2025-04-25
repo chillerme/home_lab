@@ -27,5 +27,12 @@
     - name: download report
       fetch:
         src: /tmp/oscap-report.html
-        dest: /tmp/reports/oscap-reports/{{ inventory_hostname }}.html
+        dest: /tmp/reports/{{ inventory_hostname }}.html
         flat: yes
+#    - name: Copy file with owner and permissions
+#      ansible.builtin.copy:
+#        src: /tmp/oscap-report.html
+#        dest: /etc/foo.conf
+#        owner: foo
+#        group: foo
+#        mode: '0644'
