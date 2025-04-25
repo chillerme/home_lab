@@ -44,3 +44,8 @@
 #        owner: foo
 #        group: foo
 #        mode: '0644'
+
+    - name: Recursively remove directory
+      ansible.builtin.file:
+        path: /usr/local/bin/scap-security-guide-{{ oscap_version }}
+        state: absent
