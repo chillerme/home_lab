@@ -3,6 +3,7 @@
   vars:
     oscap_profile: xccdf_org.ssgproject.content_profile_stig
     oscap_policy: ssg-rhel8-ds
+    oscap_version: 0.1.76
 
   tasks:
 
@@ -14,6 +15,12 @@
     - openscap-scanner
     - scap-security-guide
 
+  - name: Unarchive a file that needs to be downloaded (added in 2.0)
+    ansible.builtin.unarchive:
+      src: https://github.com/ComplianceAsCode/content/releases/download/v{{ oscap_version }}/scap-security-guide-{{ oscap_version }}.zip
+      dest: /usr/local/bin/
+      remote_src: yes
+
   - block:
     - name: run openscap
       command: oscap xccdf eval \
@@ -21,7 +28,7 @@
         --results-arf /tmp/oscap-arf.xml \
         --report /tmp/oscap-report.html \
         --fetch-remote-resources \
-        /usr/share/xml/scap/ssg/content/{{ oscap_policy }}.xml
+        /usr/local/bin/scap-security-guide-{{ oscap_version }}/{{ oscap_policy }}.xml
 
     always:
     - name: download report
