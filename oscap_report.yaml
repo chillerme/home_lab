@@ -21,7 +21,7 @@
       src: https://github.com/ComplianceAsCode/content/releases/download/v{{ oscap_version }}/scap-security-guide-{{ oscap_version }}.zip
       dest: /usr/local/bin/
       remote_src: yes
-    register: get_scap
+    register: download_result
 
   - name: Recursively change ownership of a directory
     ansible.builtin.file:
@@ -29,7 +29,7 @@
       state: directory
       mode: '0600'
       recurse: yes
-    when: get_scap|changed
+    when: download_result.changed
 
   - block:
     - name: run openscap
