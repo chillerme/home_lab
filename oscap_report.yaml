@@ -24,12 +24,13 @@
 
   - block:
     - name: run openscap
-      command: oscap --quiet xccdf eval \
+      command: oscap xccdf eval \
         --profile {{ oscap_profile }} \
         --results-arf /usr/local/bin/scap-security-guide-{{ oscap_version }}/oscap-arf.xml \
         --report /usr/local/bin/scap-security-guide-{{ oscap_version }}/oscap-report.html \
         --fetch-remote-resources \
-        /usr/local/bin/scap-security-guide-{{ oscap_version }}/{{ oscap_policy }}.xml > /dev/null 2>&1
+        /usr/local/bin/scap-security-guide-{{ oscap_version }}/{{ oscap_policy }}.xml
+      ignore_errors: true
 
     always:
     - name: download report
