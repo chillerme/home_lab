@@ -4,6 +4,7 @@
     oscap_profile: xccdf_org.ssgproject.content_profile_stig
     oscap_policy: ssg-rhel8-ds
     oscap_version: 0.1.76
+    dir_path: /usr/local/bin/scap-security-guide
 
   tasks:
 
@@ -25,15 +26,15 @@
     - name: run openscap
       command: oscap --quiet xccdf eval \
         --profile {{ oscap_profile }} \
-        --results-arf /tmp/oscap-arf.xml \
-        --report /tmp/oscap-report.html \
+        --results-arf /usr/local/bin/scap-security-guide-{{ oscap_version }}/oscap-arf.xml \
+        --report /usr/local/bin/scap-security-guide-{{ oscap_version }}/oscap-report.html \
         --fetch-remote-resources \
         /usr/local/bin/scap-security-guide-{{ oscap_version }}/{{ oscap_policy }}.xml
 
     always:
     - name: download report
       fetch:
-        src: /tmp/oscap-report.html
+        src: /usr/local/bin/scap-security-guide-{{ oscap_version }}/oscap-report.html
         dest: /tmp/reports/{{ inventory_hostname }}.html
         flat: yes
 #    - name: Copy file with owner and permissions
