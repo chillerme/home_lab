@@ -1,0 +1,38 @@
+---
+- name: Check for 'dir' setting in faillock.conf
+  hosts: all
+  gather_facts: false
+  tasks:
+
+    - name: Run grep to search for 'dir' in faillock.conf
+      shell: grep dir /etc/security/faillock.conf
+      register: grep_result
+      ignore_errors: true
+
+    - name: Set fact if grep output is non-empty
+      set_fact:
+        dir_setting_found: "{{ grep_result.stdout != '' }}"
+
+    - name: Add result to centralized list (on localhost)
+      delegate_to: localhost
+      run_once: true
+      set_fact:
+        all_dir_settings: "{{ all_dir_settings | default({}) | combine({inventory_hostname: hostvars[inventory_hostname].dir_setting_found}) }}"
+
+- name: Evaluate and summarize results
+  hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: Evaluate if all hosts passed the 'dir' setting check
+      set_fact:
+        all_hosts_passed: "{{ all_dir_settings.values() | all }}"
+
+    - name: Write summary message
+      debug:
+        msg: >-
+          {% if all_hosts_passed %}
+            All hosts for ID:100 are TRUE — 'dir' setting is configured in faillock.conf.
+          {% else %}
+            One or more hosts for ID:100 are FALSE — 'dir' setting is missing in faillock.conf.
+          {% endif %}
