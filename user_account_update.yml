@@ -1,13 +1,6 @@
 ---
 - name: change user password accounts
   hosts: all
-  vars_prompt:
-  - name: passwd2
-    prompt: Enter password for defadmin
-    private: true
-    encrypt: sha512_crypt
-    confirm: true
-    salt_size: 7
   tasks:
     - name: change password for defadmin
       ansible.builtin.user:
@@ -29,3 +22,11 @@
         state: present
         password_lock: false
         password: "{{ root_pass | password_hash('sha512') }}"
+
+    - name: change password for acas
+      ansible.builtin.user:
+        name: svc_acas
+        state: present
+        password_lock: false
+        password: "{{ acas_pass | password_hash('sha512') }}"
+        expires: 1798675200
