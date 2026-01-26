@@ -3,7 +3,7 @@
   vars:
     oscap_profile: xccdf_org.ssgproject.content_profile_stig
     oscap_policy: ssg-rhel8-ds
-    oscap_version: 0.1.78
+    oscap_version: 0.1.79
     dir_path: /usr/local/bin/scap-security-guide
 
   tasks:
