@@ -30,3 +30,11 @@
         password_lock: false
         password: "{{ acas_pass | password_hash('sha512') }}"
         expires: 1798675200
+
+    - name: change password for ansible
+      ansible.builtin.user:
+        name: ansible
+        state: present
+        password_lock: false
+        password: "{{ ansible_pass | password_hash('sha512') }}"
+        expires: 1798675200
