@@ -1,0 +1,47 @@
+---
+- name: Orderly Audit and Purge of McAfee Agent
+  hosts: all
+  become: true  # Required for script execution and package removal
+  vars:
+    mcafee_uninstall_script: /opt/McAfee/agent/scripts/uninstall.sh
+    mcafee_paths:
+      - /opt/McAfee
+      - /var/McAfee
+      - /etc/cma.d
+      - /opt/Trellix
+
+  tasks:
+    - name: Check if official McAfee uninstall script exists
+      ansible.builtin.stat:
+        path: "{{ mcafee_uninstall_script }}"
+      register: script_check
+
+    - name: Execute official McAfee uninstallation script
+      ansible.builtin.shell: "{{ mcafee_uninstall_script }}"
+      when: script_check.stat.exists
+      failed_when: false  # Prevents crashing if script completes with warnings
+
+    - name: Remove MFEdx package (Step 1)
+      ansible.builtin.dnf:
+        name: MFEdx
+        state: absent
+
+    - name: Remove MFEcma package (Step 2)
+      ansible.builtin.dnf:
+        name: MFEcma
+        state: absent
+
+    - name: Remove MFErt package (Step 3)
+      ansible.builtin.dnf:
+        name: MFErt
+        state: absent
+
+    - name: Purge remaining McAfee files and folders
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop: "{{ mcafee_paths }}"
+
+    - name: Report cleanup status
+      ansible.builtin.debug:
+        msg: "McAfee has been successfully uninstalled in order and completely purged."
