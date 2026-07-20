@@ -8,6 +8,7 @@
         state: present
         password_lock: false
         password: "{{ defadmin_pass | password_hash('sha512') }}"
+        no_log: true
 
     - name: change password for cstrawn
       ansible.builtin.user:
@@ -15,6 +16,7 @@
         state: present
         password_lock: false
         password: "{{ cstrawn_pass | password_hash('sha512') }}"
+        no_log: true
 
     - name: change password for root
       ansible.builtin.user:
@@ -22,6 +24,7 @@
         state: present
         password_lock: false
         password: "{{ root_pass | password_hash('sha512') }}"
+        no_log: true
 
     - name: change password for acas
       ansible.builtin.user:
@@ -30,6 +33,7 @@
         password_lock: false
         password: "{{ acas_pass | password_hash('sha512') }}"
         expires: 1798675200
+        no_log: true
 
     - name: change password for ansible
       ansible.builtin.user:
@@ -38,3 +42,4 @@
         password_lock: false
         password: "{{ ansible_pass | password_hash('sha512') }}"
         expires: 1798675200
+        no_log: true
