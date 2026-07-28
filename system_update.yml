@@ -15,6 +15,7 @@
         security: true
         update_cache: true
         update_only: true
+        nobest: true
       register: security_update_status
       when: ansible_os_family == "RedHat"
 
@@ -28,6 +29,7 @@
         name: "*"
         state: latest
         update_only: true
+        nobest: true
       register: dnf_update_status
       when: ansible_os_family == "RedHat"
 
