@@ -17,7 +17,7 @@
         update_only: true
       register: security_update_status
       when: ansible_os_family == "RedHat"
-	  
+
     - name: Clean DNF cache part 2
       ansible.builtin.command: dnf clean all
       changed_when: false
